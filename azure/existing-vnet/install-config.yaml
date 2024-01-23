@@ -1,0 +1,52 @@
+additionalTrustBundlePolicy: Proxyonly
+apiVersion: v1
+baseDomain: "YOUR BASE DOMAIN"
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform:
+    azure:
+      encryptionAtHost: false
+      osDisk:
+        diskSizeGB: 50
+        diskType: StandardSSD_LRS
+      type: Standard_D4a_v4
+  replicas: 3
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform:
+    azure:
+      encryptionAtHost: false
+      osDisk:
+        diskSizeGB: 50
+        diskType: StandardSSD_LRS
+      type: Standard_D8s_v3
+  replicas: 3
+metadata:
+  creationTimestamp: null
+  name: "YOUR CLUSTER NAME"
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 10.0.0.0/16
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  azure:
+    baseDomainResourceGroupName: "YOUR HOSTED ZONE DOMAIN RESOURCE GROUP"
+    networkResourceGroupName: "THE RESOURCE GROUP THAT HOST VNETS"
+    virtualNetwork: "VNET NAME"
+    controlPlaneSubnet: "MASTER NODES SUBNET"
+    computeSubnet: "WORKER NODES SUBNET"
+    cloudName: AzurePublicCloud
+    outboundType: Loadbalancer
+    region: "YOUR REGION"
+publish: Internal
+pullSecret: ''
+sshKey: ''
